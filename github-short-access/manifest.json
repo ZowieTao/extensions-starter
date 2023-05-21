@@ -19,14 +19,5 @@
     "keyword": "github"
   },
 
-  "permissions": ["alarms", "storage"],
-
-  "host_permissions": ["https://*/*"],
-
-  "content_scripts": [
-    {
-      "matches": ["https://*/*"],
-      "js": ["content.js"]
-    }
-  ]
+  "permissions": ["storage"]
 }
