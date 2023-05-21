@@ -28,6 +28,10 @@
     "lib/*"
   ],
   "words": [
+    "omnibox",
+    "onnibox",
+    "popovertarget",
+    "popovertargetaction",
     "webstore"
   ],
   "ignoreRegExpList": [
