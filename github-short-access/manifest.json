@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Github Short Access",
+  "description": "Github Short Access can speed up the building of Chrome extensions.",
+  "version": "1.0.0",
+  "icons": {
+    "16": "images/favicon-16.png",
+    "128": "images/favicon-128.png"
+  },
+
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+
+  "minimum_chrome_version": "102",
+
+  "omnibox": {
+    "keyword": "github"
+  },
+
+  "permissions": ["alarms", "storage"],
+
+  "host_permissions": ["https://*/*"],
+
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
