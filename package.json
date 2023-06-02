@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "cspell": "^6.31.1"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.237"
   }
 }
