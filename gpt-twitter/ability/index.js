@@ -1,4 +1,4 @@
-function a() {
+function a(params) {
   alert("a function was trigger, check the log");
   console.log("ability", document.getElementsByTagName("a"));
 }

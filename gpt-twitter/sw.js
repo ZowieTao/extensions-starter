@@ -30,12 +30,25 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   return sendResponse(`sw: ${greeting}`);
 });
 
-(() => {
-  setInterval(() => {
-    twitterTabId &&
-      chrome.scripting.executeScript({
-        target: { tabId: twitterTabId },
-        files: ["exec_div.js"],
-      });
-  }, 10000);
-})();
+// (() => {
+//   setInterval(() => {
+//     twitterTabId &&
+//       chrome.scripting.executeScript({
+//         target: { tabId: twitterTabId },
+//         files: ["exec_div.js"],
+//       });
+//   }, 10000);
+// })();
+
+// (() => {
+//   setInterval(() => {
+//     twitterTabId &&
+//       chrome.scripting.executeScript({
+//         target: { tabId: twitterTabId },
+//         func: () => {
+//           alert("a function was trigger, check the log");
+//           console.log("ability", document.getElementsByTagName("a"));
+//         },
+//       });
+//   }, 10000);
+// })();
