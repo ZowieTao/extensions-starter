@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Auto Login",
+  "description": "auto login in patreon",
+  "version": "1.0",
+  "icons": {
+    "16": "images/favicon-16x16.png",
+    "32": "images/favicon-32x32.png",
+    "60": "images/favicon-60x60.png",
+    "128": "images/favicon-128x128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "images/favicon-16x16.png",
+      "32": "images/favicon-32x32.png",
+      "60": "images/favicon-60x60.png",
+      "128": "images/favicon-128x128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["activeTab", "scripting", "tabs"],
+
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+B",
+        "mac": "Command+B"
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "GPT Twitter",
+  "version": "1.0.0",
+
+  "action": {
+    "default_icon": {
+      "16": "images/favicon-16x16.png",
+      "32": "images/favicon-32x32.png",
+      "60": "images/favicon-60x60.png",
+      "128": "images/favicon-128x128.png"
+    }
+  },
+  "default_locale": "en",
+  "description": "none",
+  "icons": {
+    "16": "images/favicon-16x16.png",
+    "32": "images/favicon-32x32.png",
+    "60": "images/favicon-60x60.png",
+    "128": "images/favicon-128x128.png"
+  },
+
+  "author": {
+    "email": "zowietao@gmail.com"
+  },
+  "background": {
+    "service_worker": "sw.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "js": ["ability/index.js"],
+      "matches": ["https://twitter.com/*"]
+    }
+  ],
+  "host_permissions": ["https://twitter.com/*"],
+  "permissions": ["activeTab", "tabs", "scripting", "webNavigation"]
+}
