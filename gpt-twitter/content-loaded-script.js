@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-alert("loaded exec!");
+alert("loaded exec and timeout send to sw");
 
 setTimeout(() => {
   chrome.runtime.sendMessage(

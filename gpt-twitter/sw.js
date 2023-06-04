@@ -1,5 +1,5 @@
 function openAdminTab() {
-  console.log("open");
+  console.log("sw.js:2 openAdminTab");
   chrome.tabs.create({ url: "admin/index.html" });
 }
 
@@ -12,7 +12,7 @@ chrome.runtime.onInstalled.addListener();
 chrome.action.onClicked.addListener(openAdminTab);
 
 chrome.webNavigation.onDOMContentLoaded.addListener(async ({ tabId, url }) => {
-  console.log("trigger sw dom load");
+  console.log("sw.js:15", "webNavigation.onDOMContentLoaded");
   if (!url.startsWith("https://twitter.com")) return;
 
   chrome.scripting.executeScript({
@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   const { greeting, prepare } = request;
   _prepare = prepare;
   twitterTabId = sender.tab.id;
-  console.log("sw.js:25", request, sender.tab.id);
+  console.log("sw.js:25", "onMessage", request, sender.tab.id);
 
   return sendResponse(`sw: ${greeting}`);
 });
