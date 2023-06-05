@@ -9,26 +9,43 @@
     <script defer src="index.js"></script>
   </head>
   <body>
-    <form>
-      <h1>Plugin Administration</h1>
-      <label>
+    <h1>Plugin Administration</h1>
+    <!-- <label>
         <span>Persist across sessions</span>
         <select name="persist" value="no">
           <option value="no">No</option>
           <option value="yes">Yes</option>
         </select>
-      </label>
-      <div class="buttons programmatic-buttons">
+      </label> -->
+    <!-- <div class="buttons">
         <button type="button" id="inject-programmatic">Execute Script</button>
-      </div>
-      <div class="buttons dynamic-buttons">
+      </div> -->
+    <!-- <div class="buttons dynamic-buttons">
         <button type="button" id="register-dynamic" disabled>
           Register Script
         </button>
         <button type="button" id="unregister-dynamic" disabled>
           Unregister Script
         </button>
-      </div>
-    </form>
+      </div> -->
+    <label>
+      <span
+        >event: publishTweet getHotTweets reply retweet like bookmark follow
+        followers account</span
+      >
+      <select class="options-select" value="publishTweet">
+        <option value="publishTweet">publishTweet</option>
+        <option value="getHotTweets">getHotTweets</option>
+        <option value="reply">reply</option>
+        <option value="retweet">retweet</option>
+        <option value="like">like</option>
+        <option value="bookmark">bookmark</option>
+        <option value="follow">follow</option>
+        <option value="followers">followers</option>
+        <option value="account">account</option>
+      </select>
+
+      <button class="submit-bottom">submit</button>
+    </label>
   </body>
 </html>

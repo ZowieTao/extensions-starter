@@ -1,4 +1,4 @@
-function a(params) {
+function a() {
   alert("a function was trigger, check the log");
   console.log("ability", document.getElementsByTagName("a"));
 }
@@ -26,3 +26,9 @@ function span() {
     }
   );
 })();
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  console.log("接收到的消息:", message);
+
+  sendResponse({ response: "Received the message!" });
+});
