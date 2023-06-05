@@ -1,4 +1,4 @@
-export class twitterController {
+class twitterController {
   async publishTweet({ username, content, image }) {
     return "";
   }
@@ -64,26 +64,3 @@ function getController() {
     _controller
   );
 }
-
-// (() => {
-//   setInterval(() => {
-//     twitterTabId &&
-//       chrome.scripting.executeScript({
-//         target: { tabId: twitterTabId },
-//         files: ["exec_div.js"],
-//       });
-//   }, 10000);
-// })();
-
-// (() => {
-//   setInterval(() => {
-//     twitterTabId &&
-//       chrome.scripting.executeScript({
-//         target: { tabId: twitterTabId },
-//         func: () => {
-//           alert("a function was trigger, check the log");
-//           console.log("ability", document.getElementsByTagName("a"));
-//         },
-//       });
-//   }, 10000);
-// })();

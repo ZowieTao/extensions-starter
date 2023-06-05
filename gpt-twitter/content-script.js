@@ -28,7 +28,7 @@ function span() {
 })();
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  console.log("接收到的消息:", message);
+  console.log("receive message:", message);
 
   sendResponse({ response: "Received the message!" });
 });
