@@ -159,6 +159,8 @@ chrome.webNavigation.onDOMContentLoaded.addListener(async ({ tabId, url }) => {
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   const { adminEvent, adminData } = request;
 
+  console.log("sw.js:162 onMessage", request, adminEvent, adminData);
+
   await sendMessageToTwitterTab(adminEvent, adminData);
 
   return sendResponse(`sw tell content-script ${adminEvent} and success`);

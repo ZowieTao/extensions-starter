@@ -4,14 +4,14 @@ function getDivElement() {
   console.log("content-script:4", document.getElementsByTagName("div"));
 }
 
-(() => {
-  chrome.runtime.sendMessage(
-    { greeting: "content-script: 'script inject and send to sw'" },
-    function (response) {
-      alert("sw response to content-script: " + JSON.stringify(response));
-    }
-  );
-})();
+// (() => {
+//   chrome.runtime.sendMessage(
+//     { greeting: "content-script: 'script inject and send to sw'" },
+//     function (response) {
+//       alert("sw response to content-script: " + JSON.stringify(response));
+//     }
+//   );
+// })();
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   console.log("receive message:", message);

@@ -1,7 +1,9 @@
 const image = "https://mock.image/xxx.png";
 const username = "zowietao";
 const content = "mock content";
+const search = "no search";
 const url = "https://twitter.com/code/status/1665425943928750080";
+const reply = "no Reply";
 
 const events = {
   publishTweet: { username, content, image },
