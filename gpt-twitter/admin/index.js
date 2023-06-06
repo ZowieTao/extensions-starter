@@ -1,30 +1,26 @@
+const image = "https://mock.image/xxx.png";
+const username = "zowietao";
+const content = "mock content";
+const url = "https://twitter.com/code/status/1665425943928750080";
+
+const events = {
+  publishTweet: { username, content, image },
+  getHotTweets: { username, search },
+  reply: { username, url, reply },
+  retweet: { username, url },
+  like: { username, url },
+  bookmark: { username, url },
+  follow: { username, url },
+  followers: { username },
+  account: { username },
+};
+
 document.querySelector(".submit-bottom").addEventListener("click", async () => {
   const eventVal = document.querySelector(".options-select").value;
-  chrome.tabs.query({ url: "https://twitter.com/*" }, function (tabs) {
-    console.log(tabs);
-    if (tabs && tabs.length > 0) {
-      var twitterTabId = tabs[0].id;
-      chrome.tabs.update(twitterTabId, { active: true }, function () {
-        chrome.tabs.sendMessage(twitterTabId, { triggerEvent: eventVal });
-      });
-    } else {
-      chrome.tabs.create({ url: "https://twitter.com" }, function (newTab) {
-        // listen tab update
-        function handleUpdated(tabId, changeInfo, tab) {
-          if (tabId === newTab.id && changeInfo.status === "complete") {
-            // send message to twitter's content script
-            chrome.tabs.sendMessage(newTab.id, {
-              triggerEvent: eventVal,
-            });
-
-            // remote listener
-            chrome.tabs.onUpdated.removeListener(handleUpdated);
-          }
-        }
-
-        // add listener
-        chrome.tabs.onUpdated.addListener(handleUpdated);
-      });
+  chrome.runtime.sendMessage(
+    { adminEvent: eventVal, adminData: JSON.stringify(events[eventVal]) },
+    function (response) {
+      alert("callback command to sw: " + JSON.stringify(response));
     }
-  });
+  );
 });

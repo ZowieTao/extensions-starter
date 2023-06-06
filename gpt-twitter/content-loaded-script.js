@@ -1,10 +1,10 @@
-alert("loaded exec!");
+alert("sw learn site was loaded, and execScript to site!");
 
 setTimeout(() => {
   chrome.runtime.sendMessage(
-    { greeting: "tw: twitter loaded send to sw" },
+    { greeting: "loaded-script to sw: twitter loaded send to sw" },
     function (response) {
-      alert("response: " + JSON.stringify(response));
+      alert("callback of loaded-script to sw: " + JSON.stringify(response));
     }
   );
-}, 5000);
+}, 1000);

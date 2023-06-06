@@ -7,15 +7,25 @@ export class twitterController {
     return [];
   }
 
-  reply({ username, url, reply }) {}
+  reply({ username, url, reply }) {
 
-  retweet({ username, url }) {}
+  }
 
-  like({ username, url }) {}
+  retweet({ username, url }) {
 
-  bookmark({ username, url }) {}
+  }
 
-  follow({ username, url }) {}
+  like({ username, url }) {
+    
+  }
+
+  bookmark({ username, url }) {
+    
+  }
+
+  follow({ username, url }) {
+    
+  }
 
   followers({ username }) {
     return 0;
