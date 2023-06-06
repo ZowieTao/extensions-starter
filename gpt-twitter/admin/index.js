@@ -22,7 +22,7 @@ document.querySelector(".submit-bottom").addEventListener("click", async () => {
   chrome.runtime.sendMessage(
     { adminEvent: eventVal, adminData: JSON.stringify(events[eventVal]) },
     function (response) {
-      alert("callback command to sw: " + JSON.stringify(response));
+      alert("response: " + JSON.stringify(response));
     }
   );
 });

@@ -73,17 +73,6 @@ class WebSocketController {
   handleOpen(event) {
     console.log("WebSocket Connected");
     this.isConnected = true;
-    setTimeout(() => {
-      this.send(
-        jsonEncode({
-          event: "nothing",
-          errCode: 0,
-          errMsg: "none",
-          data: "",
-          operationID: generateUUID(),
-        })
-      );
-    }, 1000);
   }
 
   // declare type WsResponse = {
@@ -99,7 +88,9 @@ class WebSocketController {
       JSON.parse(msg.data) ?? {};
 
     if (errCode !== 0) {
-      throw new Error("handleMessage:106" + typeof msg.data + errCode + errMsg);
+      throw new Error(
+        "sw.js handleMessage:106" + typeof msg.data + errCode + errMsg
+      );
     }
 
     sendMessageToTwitterTab(event, data);
@@ -163,7 +154,15 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 
   await sendMessageToTwitterTab(adminEvent, adminData);
 
-  return sendResponse(`sw tell content-script ${adminEvent} and success`);
+  console.log(
+    "sw receive admin page command and execute success, will exec sendResponse with:",
+    `sw tell content-script ${adminEvent} and success`,
+    sender
+  );
+
+  sendResponse(`sw tell content-script ${adminEvent} and success`);
+
+  return;
 });
 
 let _controller = new WebSocketController(
