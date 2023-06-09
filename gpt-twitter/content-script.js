@@ -4,14 +4,25 @@ function getDivElement() {
   console.log("content-script:4", document.getElementsByTagName("div"));
 }
 
-// (() => {
-//   chrome.runtime.sendMessage(
-//     { greeting: "content-script: 'script inject and send to sw'" },
-//     function (response) {
-//       alert("sw response to content-script: " + JSON.stringify(response));
-//     }
-//   );
-// })();
+setTimeout(() => {
+  document.addEventListener("DOMContentLoaded", () => {
+    const usernameInput = document.querySelector(
+      'input[autocomplete="username"]'
+    );
+
+    const passwordInput = document.querySelector(
+      'input[autocomplete="current-password"]'
+    );
+
+    usernameInput.value = "your_username";
+    passwordInput.value = "your_password";
+
+    const loginButton = document.querySelector(
+      'div[data-testid="LoginForm_Login_Button"]'
+    );
+    loginButton.click();
+  });
+}, 1000);
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   console.log("receive message:", message);
@@ -19,8 +30,38 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // todo some work use event data
 
   switch (event) {
+    case "login": {
+      break;
+    }
+
     case "publishTweet": {
-      console.log("!!!", event, data);
+      const textBox = document.querySelector('div[role="textbox"]');
+
+      const enterEvent = new KeyboardEvent("keydown", {
+        key: "Enter",
+        bubbles: true,
+      });
+
+      textBox.dispatchEvent(enterEvent);
+
+      const inputEvent = new InputEvent("input", {
+        bubbles: true,
+        cancelable: true,
+      });
+      textBox.dispatchEvent(inputEvent);
+
+      textBox.innerText = "Hello, Twitter!";
+
+      const clickEvent = new MouseEvent("click", {
+        bubbles: true,
+        cancelable: true,
+      });
+
+      const tweetButton = document.querySelector(
+        'div[data-testid="tweetButtonInline"]'
+      );
+      tweetButton.dispatchEvent(clickEvent);
+
       break;
     }
     case "getHotTweets": {

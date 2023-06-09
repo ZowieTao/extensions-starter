@@ -1,4 +1,8 @@
 export class twitterController {
+  async login({ username, password }) {
+    return true;
+  }
+
   async publishTweet({ username, content, image }) {
     return "";
   }
@@ -7,25 +11,15 @@ export class twitterController {
     return [];
   }
 
-  reply({ username, url, reply }) {
+  reply({ username, url, reply }) {}
 
-  }
+  retweet({ username, url }) {}
 
-  retweet({ username, url }) {
+  like({ username, url }) {}
 
-  }
+  bookmark({ username, url }) {}
 
-  like({ username, url }) {
-    
-  }
-
-  bookmark({ username, url }) {
-    
-  }
-
-  follow({ username, url }) {
-    
-  }
+  follow({ username, url }) {}
 
   followers({ username }) {
     return 0;
@@ -35,7 +29,3 @@ export class twitterController {
     return 0;
   }
 }
-
-export const x = {
-  hello: "hi",
-};
