@@ -20,13 +20,25 @@ function generateUUID() {
 }
 
 // event: string, data: jsonString
-async function sendMessageToTwitterTab(event, data) {
+async function sendMessageToTwitterTab(request_id, action, payload) {
   chrome.tabs.query({ url: "https://twitter.com/*" }, function (tabs) {
     if (tabs && tabs.length > 0) {
       var twitterTabId = tabs[0].id;
       // set twitter tab focus and callback to sendMessage
       chrome.tabs.update(twitterTabId, { active: true }, function () {
-        chrome.tabs.sendMessage(twitterTabId, { event, data });
+        chrome.tabs.sendMessage(
+          twitterTabId,
+          { request_id, action, payload },
+          function (response) {
+            getController().send(
+              JSON.stringify({
+                status: 0,
+                ...response,
+              })
+            );
+            console.log("response: ", response);
+          }
+        );
       });
     } else {
       chrome.tabs.create({ url: "https://twitter.com" }, function (newTab) {
@@ -34,10 +46,19 @@ async function sendMessageToTwitterTab(event, data) {
         function handleUpdated(tabId, changeInfo, tab) {
           if (tabId === newTab.id && changeInfo.status === "complete") {
             // send message to twitter's content script
-            chrome.tabs.sendMessage(newTab.id, {
-              event,
-              data,
-            });
+            chrome.tabs.sendMessage(
+              newTab.id,
+              { request_id, action, payload },
+              function (response) {
+                getController().send(
+                  JSON.stringify({
+                    status: 0,
+                    ...response,
+                  })
+                );
+                console.log("response: ", response);
+              }
+            );
 
             // remote listener
             chrome.tabs.onUpdated.removeListener(handleUpdated);
@@ -84,16 +105,20 @@ class WebSocketController {
   // };
 
   handleMessage(msg) {
-    const { event, errCode, errMsg, data, operationID } =
-      JSON.parse(msg.data) ?? {};
+    console.log("msg", msg);
+    const { action, payload, request_id } = JSON.parse(msg.data) ?? {};
 
-    if (errCode !== 0) {
-      throw new Error(
-        "sw.js handleMessage:106" + typeof msg.data + errCode + errMsg
-      );
+    if (action) {
+      sendMessageToTwitterTab(request_id, action, payload);
     }
 
-    sendMessageToTwitterTab(event, data);
+    // if (errCode !== 0) {
+    //   throw new Error(
+    //     "sw.js handleMessage:106" + typeof msg.data + errCode + errMsg
+    //   );
+    // }
+
+    // sendMessageToTwitterTab(event, data);
   }
 
   handleClose(event) {
@@ -165,9 +190,11 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   return;
 });
 
-let _controller = new WebSocketController(
-  "wss://s9104.nyc1.piesocket.com/v3/1?api_key=Sk1e6udYsCBKSVYAEkERufcJhWps8JhH0TTIvtYm&notify_self=1"
-);
+const privityWs =
+  "wss://s9104.nyc1.piesocket.com/v3/1?api_key=Sk1e6udYsCBKSVYAEkERufcJhWps8JhH0TTIvtYm&notify_self=1";
+const pbWs = "ws://43.153.184.33:8080";
+
+let _controller = new WebSocketController(pbWs);
 
 function getController() {
   return (

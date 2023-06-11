@@ -4,32 +4,73 @@ function getDivElement() {
   console.log("content-script:4", document.getElementsByTagName("div"));
 }
 
-setTimeout(() => {
-  document.addEventListener("DOMContentLoaded", () => {
-    const usernameInput = document.querySelector(
-      'input[autocomplete="username"]'
-    );
+async function getAccountStatics(callBack) {
+  const mainElement = document.querySelector("main");
+  console.log("mainElement", mainElement);
 
-    const passwordInput = document.querySelector(
-      'input[autocomplete="current-password"]'
-    );
+  const getCount = () => {
+    const followInfoEle = document.querySelector('div[data-testid="UserName"]')
+      .nextSibling.nextSibling.nextSibling;
+    const childContents = [];
+    console.log("followInfoEle", followInfoEle);
 
-    usernameInput.value = "your_username";
-    passwordInput.value = "your_password";
+    followInfoEle.childNodes.forEach((childNode) => {
+      if (childNode.nodeType === Node.ELEMENT_NODE) {
+        const content = childNode.textContent;
+        childContents.push(content);
+      }
+    });
 
-    const loginButton = document.querySelector(
-      'div[data-testid="LoginForm_Login_Button"]'
-    );
-    loginButton.click();
+    if (childContents.length >= 2) {
+      console.log("childContents", childContents);
+
+      return {
+        Following: childContents[0].split(" ").shift(),
+        Followers: childContents[1].split(" ").shift(),
+      };
+    }
+  };
+
+  const getCountDebounce = getCount;
+
+  const observer = new MutationObserver((mutations) => {
+    const result = getCountDebounce();
+    result && callBack(result);
+
+    observer.disconnect();
   });
-}, 1000);
+
+  const observerOptions = {
+    childList: true,
+    subtree: true,
+  };
+
+  observer.observe(mainElement, observerOptions);
+  console.log("will observe");
+  let getCountDebounceResult = getCountDebounce();
+  console.log("getCountDebounceResult", getCountDebounceResult);
+  if (getCountDebounceResult) {
+    callBack(getCountDebounceResult);
+    observer.disconnect();
+  }
+
+  document.querySelector('a[aria-label="Profile"][role="link"]').click();
+}
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   console.log("receive message:", message);
-  const { event, data } = message;
+  const { action, payload, request_id } = message;
   // todo some work use event data
 
-  switch (event) {
+  switch (action) {
+    case "get_account_statics": {
+      getAccountStatics((result) => {
+        let resp = { request_id, data: result };
+        console.log("will send response", resp);
+        sendResponse(resp);
+      });
+      break;
+    }
     case "login": {
       break;
     }
@@ -100,6 +141,4 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     default:
       break;
   }
-
-  sendResponse({ response: "Received the message!" });
 });
